@@ -1,38 +1,19 @@
 .half_div {
   height: 50% !important;
 }
-.half_div .partition {
-  height: 100%;
-  width: 50%;
+
+.inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.user_div {
-  margin-top: 15%;
-  z-index: 100 !important;
-}
-.user_div .user_header {
-  height: 25%;
-  width: 100%;
-  padding: 0 auto;
-}
 .user_div .user_image {
   margin-top: -15%;
 }
-.user_div .user_header_div {
-  height: 25%;
-  width: 100%;
-}
 .user_div .spacer {
   height: 10% !important;
-}
-
-.hidden {
-  display: none;
-}
-
-#map {
-  height: 100%;
-  width: 100%;
 }
 
 /*# sourceMappingURL=custom.css.map */
