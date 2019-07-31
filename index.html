@@ -1,0 +1,154 @@
+<!Doctype html>
+<html>
+    <head>
+        <title>RANDOM USER</title>
+        <meta charset="utf-8">
+        <base href="./">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <link rel="stylesheet" href="./styles/styles.4a2706caecf62b187ba2.css">
+        <link rel="stylesheet" href="./styles/css/custom.css">
+    </head>
+    <body>
+        <div class="l-col-4"></div>
+        <div class="l-col-4 u-border u-padding--none user_div">
+
+                <div class="c-card u-text--centered">
+                    <div class="c-card__image u-margin--v-lg">
+                        <div class="spacer"></div>
+                    </div>
+                    <div class="c-card__content">
+                        <img class="user_image u-image--rounded u-image u-image--128" id="thumbNail" src="">
+                        <div class="user_header u-text--centered">
+                            <span id="description"> </span>
+                        </div>
+                        <div class="user_header u-text--centered u-text--bolder">
+                            <span id="output"> </span>
+                        </div>
+                    </div>
+                    <footer class="">
+                        <div class="l-row no-gutters u-padding--btm-md">
+                            <div class="l-col-2"></div>
+                            <div class="l-col-8 u-text--centered">
+                                <img class="u-image--24 toggles u-margin--sm u-bg-inplay" id="user" src="./styles/assets/icons/svg/misc/user.svg">
+                                <img class="u-image--24 toggles u-margin--sm" id="mail" src="./styles/assets/icons/svg/misc/email.svg">
+                                <img class="u-image--24 toggles u-margin--sm" id="calender" src="./styles/assets/icons/svg/misc/calendar.svg">
+                                <img class="u-image--24 toggles u-margin--sm" id="location" src="./styles/assets/icons/svg/misc/map-location.svg">
+                                <img class="u-image--24 toggles u-margin--sm" id="phone" src="./styles/assets/icons/svg/misc/call.svg">
+                                <img class="u-image--24 toggles u-margin--sm" id="lock" src="./styles/assets/icons/svg/misc/locked.svg">
+                            </div>
+                            <div class="l-col-2"></div>
+                        </div>
+                    </footer>
+                </div>
+        </div>
+        <div class="l-col-4"></div>
+        
+        <div class="half_div u-bg-black"></div>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="crossorigin="anonymous"></script>
+        <script>
+
+            var userData;
+            var image;
+
+            $("#user").click(function(){
+                toggleImage();
+            });
+
+            function toggleImage(){
+                if (image === undefined || image === "thumbnail"){
+                    document.getElementById("thumbNail").src = userData.picture.large;
+                    image = "large";
+                }
+                else if(image === "large"){
+                    document.getElementById("thumbNail").src = userData.picture.medium;
+                    image = "medium";
+                }else if(image === "medium"){
+                    document.getElementById("thumbNail").src = userData.picture.thumbnail;
+                    image = "thumbnail";
+                }
+            }
+
+            function formatDate(date) {
+                var day = date.getDate();
+                var monthIndex = date.getMonth();
+                var year = date.getFullYear();
+
+                return day + '/' + monthIndex + '/' + year;
+            }
+
+            $(".toggles").mouseover(function(){
+                $(".toggles").removeClass("u-bg-inplay");
+                $(this).addClass("u-bg-inplay");
+                var description;
+                var message;
+
+                var date = new Date(userData.dob.date);
+
+                switch (this.id) {
+                    case "user":
+                        message = userData.name.first + " " + userData.name.last;
+                        break;
+                    case "mail":
+                        message = userData.email;
+                        break;
+                    case "calender":
+                        message = formatDate(new Date(userData.dob.date));
+                        break;
+                    case "location":
+                        message = userData.location.postcode + " - " +userData.location.street;
+                        break;
+                    case "phone":
+                        message = userData.phone;
+                        break;
+                    case "lock":
+                        message = userData.login.password;
+                        break;
+                    default:
+                        break;
+                }
+
+                $("#output").text(message);
+
+                switch (this.id) {
+                    case "user":
+                        description = "Hi, my name is";
+                        break;
+                    case "mail":
+                        description = "My email address is";
+                        break;
+                    case "calender":
+                        description = "My birthday is";
+                        break;
+                    case "location":
+                        description = "My address is";
+                        break;
+                    case "phone":
+                        description = "My phone number is";
+                        break;
+                    case "lock":
+                        description = "My password is";
+                        break;
+                    default:
+                        break;
+                }
+                $("#description").text(description);
+            });
+
+            $.ajax({
+                url: 'https://randomuser.me/api/',
+                dataType: 'json',
+                success: function(data) {
+                    userData = data.results[0];
+                    toggleImage();
+
+                    $("#description").text("Hi, My name is");
+                    $("#output").text(userData.name.first + " " + userData.name.last);
+                    $("#mail").wrap("<a href='mailto:" + userData.email + "'>");
+                }
+            });
+        </script>
+    </body>
+</html>
